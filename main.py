@@ -52,22 +52,54 @@ while True:
             for row in result:
                 print(row)
     elif choice == '3':
+        offset = 0
+        limit = 10
+        while True:
+            cursor.execute("SELECT * FROM names ORDER BY amount DESC LIMIT ?, ?", (offset, limit))
+            result = cursor.fetchall()
+            if result:
+                for row in result:
+                    print(row)
+            if input("Proceed? y/n") == 'n':
+                break;
+            offset += limit
         # atlasīt top 5 vārdus pēc populāritātes
         # https://www.w3schools.com/sql/sql_orderby.asp (ORDER BY)
         # https://www.w3schools.com/sql/sql_top.asp (LIMIT)
         pass
     elif choice == '4':
         gender = input("Ievadi VĪRIETIS/SIEVIETE: ")
+        cursor.execute("SELECT COUNT(*) FROM names WHERE gender=?", (gender,))
+        result = cursor.fetchall()
+        if result:
+            for row in result:
+                print(row)
         # Parādīt kopējo vārdu skaitu pēc dzimuma
         # https://www.w3schools.com/sql/sql_count.asp (COUNT)
         # https://www.w3schools.com/sql/sql_where.asp (WHERE)
     elif choice == '5':
         gender = input("Ievadi VĪRIETIS/SIEVIETE: ")
+        cursor.execute("SELECT AVG(amount) FROM names WHERE gender=?", (gender,))
+        result = cursor.fetchall()
+        if result:
+            for row in result:
+                print(row)
         # Parādīt vidējo vārdu skaitu pēc dzimuma
         # https://www.w3schools.com/sql/sql_avg.asp (AVG)
         # https://www.w3schools.com/sql/sql_where.asp (WHERE)
     elif choice == '6':
         amount = input("Ievadi daudzumu: ")
+        offset = 0
+        limit = 10
+        while True:
+            cursor.execute("SELECT * FROM names WHERE amount=? LIMIT ?, ?", (amount ,offset, limit))
+            result = cursor.fetchall()
+            if result:
+                for row in result:
+                    print(row)
+            if input("Proceed? y/n") == 'n':
+                break;
+            offset += limit
         # Parādīt vārdus pēc daudzuma
         # https://www.w3schools.com/sql/sql_where.asp (WHERE)
     elif choice == '7':
